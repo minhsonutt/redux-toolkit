@@ -1,12 +1,14 @@
 import PostItem from '../PostItem'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from 'store'
-import { useEffect } from 'react'
+import { Fragment, useEffect } from 'react'
 import { getPost } from 'pages/blog/blog.reducer'
+import SkeletonPost from '../SkeletonPost'
 
 export default function PostList() {
   const dispatch = useAppDispatch()
   const postList = useSelector((state: RootState) => state.blog.postList)
+  const loading = useSelector((state: RootState) => state.blog.loading)
   useEffect(() => {
     const promise = dispatch(getPost())
     return () => {
@@ -24,9 +26,13 @@ export default function PostList() {
             </p>
           </div>
           <div className='grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-2 xl:grid-cols-2 xl:gap-8'>
-            {postList.map((post) => (
-              <PostItem post={post} key={post.id} />
-            ))}
+            {loading && (
+              <Fragment>
+                <SkeletonPost />
+                <SkeletonPost />
+              </Fragment>
+            )}
+            {!loading && postList.map((post) => <PostItem post={post} key={post.id} />)}
           </div>
         </div>
       </div>

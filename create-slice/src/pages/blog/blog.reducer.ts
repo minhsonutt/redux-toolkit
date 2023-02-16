@@ -1,6 +1,12 @@
-import { createSlice, PayloadAction, current, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, createAsyncThunk, AsyncThunk } from '@reduxjs/toolkit'
 import { Post } from 'types/blog.type'
 import http from 'ultils/http'
+
+type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>
+
+type PendingAction = ReturnType<GenericAsyncThunk['pending']>
+type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>
+type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>
 
 interface BlogState {
   postList: Post[]
@@ -82,14 +88,33 @@ const blogSlice = createSlice({
         const postIndex = state.postList.findIndex((post) => post.id === action.meta.arg)
         state.postList.splice(postIndex, 1)
       })
-      .addMatcher(
-        (action) => action.type.includes('cancel'),
+      .addMatcher<PendingAction>(
+        (action) => action.type.endsWith('/pending'),
         (state, action) => {
-          console.log(current(state))
+          state.loading = true
+          state.currentRequestId = action.meta.requestId
+        }
+      )
+      .addMatcher<RejectedAction>(
+        (action) => action.type.endsWith('/rejected'),
+        (state, action) => {
+          if (state.loading && state.currentRequestId === action.meta.requestId) {
+            state.loading = false
+            state.currentRequestId = undefined
+          }
+        }
+      )
+      .addMatcher<FulfilledAction>(
+        (action) => action.type.endsWith('/fulfilled'),
+        (state, action) => {
+          if (state.loading && state.currentRequestId === action.meta.requestId) {
+            state.loading = false
+            state.currentRequestId = undefined
+          }
         }
       )
       .addDefaultCase((state, action) => {
-        console.log(current(state))
+        // console.log(current(state))
       })
   }
 })
