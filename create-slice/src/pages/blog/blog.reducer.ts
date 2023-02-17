@@ -30,19 +30,33 @@ export const getPost = createAsyncThunk('blog/getPost', async (_, thunkAPI) => {
 })
 
 export const addPost = createAsyncThunk('blog/addPost', async (body: Omit<Post, 'id'>, thunkAPI) => {
-  const response = await http.post<Post>('posts', body, {
-    signal: thunkAPI.signal
-  })
-  return response.data
+  try {
+    const response = await http.post<Post>('posts', body, {
+      signal: thunkAPI.signal
+    })
+    return response.data
+  } catch (error: any) {
+    if (error.name === 'AxiosError' && error.response.status === 422) {
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+    throw error
+  }
 })
 
 export const updatePost = createAsyncThunk(
   'blog/updatePost',
   async ({ postId, body }: { postId: string; body: Post }, thunkAPI) => {
-    const response = await http.put(`posts/${postId}`, body, {
-      signal: thunkAPI.signal
-    })
-    return response.data
+    try {
+      const response = await http.put(`posts/${postId}`, body, {
+        signal: thunkAPI.signal
+      })
+      return response.data
+    } catch (error: any) {
+      if (error.name === 'AxiosError' && error.response.status === 422) {
+        return thunkAPI.rejectWithValue(error.response.data)
+      }
+      throw error
+    }
   }
 )
 
@@ -95,17 +109,8 @@ const blogSlice = createSlice({
           state.currentRequestId = action.meta.requestId
         }
       )
-      .addMatcher<RejectedAction>(
-        (action) => action.type.endsWith('/rejected'),
-        (state, action) => {
-          if (state.loading && state.currentRequestId === action.meta.requestId) {
-            state.loading = false
-            state.currentRequestId = undefined
-          }
-        }
-      )
-      .addMatcher<FulfilledAction>(
-        (action) => action.type.endsWith('/fulfilled'),
+      .addMatcher<RejectedAction | FulfilledAction>(
+        (action) => action.type.endsWith('/rejected') || action.type.endsWith('/fulfilled'),
         (state, action) => {
           if (state.loading && state.currentRequestId === action.meta.requestId) {
             state.loading = false
