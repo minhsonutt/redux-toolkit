@@ -5,9 +5,8 @@ import SkeletonPost from '../SkeletonPost'
 export default function PostList() {
   // isLoading chỉ dành cho lần fetch đầu tiên
   // isFetching dành cho mỗi lần gọi API
-  const { data, isLoading, isFetching } = useGetPostsQuery()
-  console.log(data)
-
+  // data, isLoading, isFetching,... được cập nhật thì component sẽ rerender
+  const { data, isLoading, isFetching } = useGetPostsQuery() // fetch API
   return (
     <div>
       <div className='bg-white py-6 sm:py-8 lg:py-12'>
@@ -25,7 +24,7 @@ export default function PostList() {
                 <SkeletonPost />
               </>
             )}
-            {!isFetching && data?.map((post) => <PostItem key={post.id} />)}
+            {!isFetching && data?.map((post) => <PostItem key={post.id} post={post} />)}
           </div>
         </div>
       </div>
