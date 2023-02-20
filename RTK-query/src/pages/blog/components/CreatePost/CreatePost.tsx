@@ -1,5 +1,5 @@
 import { useAddPostMutation, useGetPostQuery, useUpdatePostMutation } from 'pages/blog/blog.service'
-import { cancleEditPost } from 'pages/blog/blogSlice'
+import { cancleEditPost, resetPostId } from 'pages/blog/blogSlice'
 import { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store'
@@ -17,10 +17,13 @@ export default function CreatePost() {
   const [addPost] = useAddPostMutation()
   const postId = useSelector((state: RootState) => state.blog.postId)
   const [updatePost] = useUpdatePostMutation()
-  const { data } = useGetPostQuery(postId, { skip: !postId })
+  const { data, refetch } = useGetPostQuery(postId, { skip: !postId })
   const dispatch = useDispatch()
+
   useEffect(() => {
-    data && setFormData(data)
+    if (data) {
+      setFormData(data)
+    }
   }, [data])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -34,6 +37,8 @@ export default function CreatePost() {
       await addPost(formData).unwrap()
     }
     setFormData(initialState)
+    dispatch(resetPostId())
+    refetch()
   }
 
   const handleReset = () => {

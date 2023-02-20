@@ -17,10 +17,13 @@ const blogSlice = createSlice({
     },
     cancleEditPost: (state) => {
       state.postId = ''
+    },
+    resetPostId: (state) => {
+      state.postId = ''
     }
   }
 })
 
 const blogReducer = blogSlice.reducer
-export const { cancleEditPost, startEditPost } = blogSlice.actions
+export const { cancleEditPost, startEditPost, resetPostId } = blogSlice.actions
 export default blogReducer

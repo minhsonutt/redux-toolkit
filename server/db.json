@@ -2,11 +2,11 @@
   "posts": [
     {
       "description": "Nghịch cảnh là một phần của cuộc sống. Nó không thể bị kiểm soát. Cái có thể kiểm soát chính là cách chúng ta phản ứng trước nghịch cảnh.\n",
-      "featuredImage": "https://images.unsplash.com/photo-1665412019489-1928d5afa5cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80",
+      "featuredImage": "https://images.unsplash.com/photo-1671671095119-77d459648e3c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDU0fGJvOGpRS1RhRTBZfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
       "id": "2022-10-12T04:32:48.650Z",
-      "publishDate": "2023-03-10T11:32",
+      "publishDate": "2023-05-06T11:32",
       "published": true,
-      "title": "xxxx"
+      "title": "React Reduxs"
     },
     {
       "description": "Bạn chớ nên bỏ cuộc khi bạn vẫn còn điều gì đó để cho đi. Không có gì là hoàn toàn bế tắc, sự việc chỉ thật sự trở nên bế tắc khi bạn thôi không cố gắng nữa.\n",
@@ -14,7 +14,7 @@
       "id": "2022-10-12T04:33:07.847Z",
       "publishDate": "2023-04-01T11:33",
       "published": true,
-      "title": "Muốn thành công thì khao khát thành công phải lớn hơn nỗi sợ bị thất bại."
+      "title": "Muốn thành "
     },
     {
       "description": "Ai cũng nói tương lai chúng ta luôn rộng mở, nhưng nếu không nắm bắt được hiện tại thì tương lai sẽ chẳng có gì.\n",
@@ -22,7 +22,7 @@
       "id": "2022-10-12T04:33:26.301Z",
       "publishDate": "2023-07-01T11:33",
       "published": true,
-      "title": "Mất niềm tin vào bản thân, cũng như bạn đánh mất thành công đang đợi mình"
+      "title": "Mất niềm tins"
     },
     {
       "description": "Tôi có thể chấp nhận thất bại, mọi người đều thất bại ở một việc gì đó. Nhưng tôi không chấp nhận việc không cố gắng.\n",
@@ -30,7 +30,7 @@
       "id": "2022-10-12T04:35:12.040Z",
       "publishDate": "2023-04-27T11:35",
       "published": true,
-      "title": "Nơi nào có ý chí, nơi đó có con đường."
+      "title": "Nơi nào có ý"
     }
   ]
 }
