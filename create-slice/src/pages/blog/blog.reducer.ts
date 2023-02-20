@@ -29,6 +29,8 @@ export const getPost = createAsyncThunk('blog/getPost', async (_, thunkAPI) => {
   return response.data
 })
 
+// UI sẽ dispatch addPost(một thunk api) sau khi hàm bất đồng hộ hoàn thành việc gọi api thì Redux toolkit tự động
+// dishpatch action blog/addPost/fullfilled hoặc blog/addPost/rejected và sau đó các reducer sẽ xử lý action này để cập nhật state
 export const addPost = createAsyncThunk('blog/addPost', async (body: Omit<Post, 'id'>, thunkAPI) => {
   try {
     const response = await http.post<Post>('posts', body, {
