@@ -11,8 +11,7 @@ export const blogApi = createApi({
       query: () => 'posts',
       providesTags(result) {
         if (result) {
-          const final = [
-            /*
+          /*
               biến đổi result(kết quả trả về khi getPosts thành công) thành một mảng mởi có dạng 
               [
                 type: 'Post',
@@ -27,6 +26,7 @@ export const blogApi = createApi({
               - cách khác: 
               ...result.map((post) => ({ type: 'Posts' as const, id: post.id }))
             */
+          const final = [
             ...result.map(({ id }) => ({ type: 'Posts' as const, id })),
             { type: 'Posts' as const, id: 'LIST' }
           ]
@@ -50,8 +50,31 @@ export const blogApi = createApi({
         - trong trường hợp này thì getPosts sẽ chạy lại
       */
       invalidatesTags: (result, error, body) => [{ type: 'Posts', id: 'LIST' }]
+    }),
+    getPost: build.query<Post, string>({
+      query: (id) => `posts/${id}`
+    }),
+    updatePost: build.mutation<Post, { id: string; body: Post }>({
+      query(data) {
+        return {
+          url: `posts/${data.id}`,
+          method: 'PUT',
+          body: data.body
+        }
+      },
+      invalidatesTags: (result, error, data) => [{ type: 'Posts', id: data.id }]
+    }),
+    deletePost: build.mutation<{}, string>({
+      query(id) {
+        return {
+          url: `posts/${id}`,
+          method: 'DELETE'
+        }
+      },
+      invalidatesTags: (result, error, id) => [{ type: 'Posts', id: id }]
     })
   })
 })
 
-export const { useGetPostsQuery, useAddPostMutation } = blogApi
+export const { useGetPostsQuery, useAddPostMutation, useGetPostQuery, useUpdatePostMutation, useDeletePostMutation } =
+  blogApi
